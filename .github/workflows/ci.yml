@@ -39,10 +39,11 @@ jobs:
       - name: Build
         run: cmake --build ${{github.workspace}}/sw_client/build
 
-      # Step 5: Run tests with xvfb
+      # Step 5: Run tests
       - name: Run tests
-        run: xvfb-run -a ctest -C ${{env.BUILD_TYPE}} --output-on-failure
         working-directory: ${{github.workspace}}/sw_client/build
+        run: ctest -C ${{env.BUILD_TYPE}} 
+        
 
 
       # Step 6: Upload build artifacts
