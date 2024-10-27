@@ -40,11 +40,9 @@ jobs:
         run: cmake --build ${{github.workspace}}/sw_client/build
 
       # Step 5: Run tests
-      - name: Run tests
+      - name: Run tests with CTest debug
         working-directory: ${{github.workspace}}/sw_client/build/Debug
-        run: ./tests.exe
-        
-
+        run: ctest -V
 
       # Step 6: Upload build artifacts
       - name: Upload sw_client Build Artifacts
