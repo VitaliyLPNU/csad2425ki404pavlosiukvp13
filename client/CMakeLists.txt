@@ -79,6 +79,9 @@ add_executable(tests
 target_link_libraries(tests PRIVATE Qt${QT_VERSION_MAJOR}::Test Qt${QT_VERSION_MAJOR}::Widgets Qt${QT_VERSION_MAJOR}::SerialPort)
 
 # Add runtests target to run the tests
-add_custom_target(runtests COMMAND tests)enable_testing()
+add_custom_target(runtests COMMAND tests)
+
+# Enable testing framework
+enable_testing()
 
 add_test(NAME TestSerialCommunication COMMAND client_tester)
