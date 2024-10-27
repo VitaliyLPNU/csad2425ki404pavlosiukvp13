@@ -33,7 +33,7 @@ jobs:
 
       # Step 3: Navigate to the build directory
       - name: Configure CMake
-        run: cmake ${{github.workspace}}/sw_sw_client -B ${{github.workspace}}/sw_client/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
+        run: cmake ${{github.workspace}}/sw_client -B ${{github.workspace}}/sw_client/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
 
       - name: Build
         # Build your program with the given configuration
