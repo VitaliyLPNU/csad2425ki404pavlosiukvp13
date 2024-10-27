@@ -48,7 +48,7 @@ jobs:
 
       # Step 7: Run tests
       - name: Test
-        working-directory: ${{github.workspace}}/sw_client/build
+        working-directory: ${{github.workspace}}/sw_client/build/Desktop_Qt_6_8_0_MinGW_64_bit-Debug
       # Execute tests defined by the CMake configuration.
         run: ctest -C ${{env.BUILD_TYPE}} --rerun-failed --output-on-failure
 
