@@ -78,10 +78,9 @@ add_executable(tests
 # Link test libraries
 target_link_libraries(tests PRIVATE Qt${QT_VERSION_MAJOR}::Test Qt${QT_VERSION_MAJOR}::Widgets Qt${QT_VERSION_MAJOR}::SerialPort)
 
-# Add runtests target to run the tests
-add_custom_target(runtests COMMAND tests)
+set_target_properties(sw_client PROPERTIES AUTOMOC ON)
+set_target_properties(tests PROPERTIES AUTOMOC ON)
 
 enable_testing()
-add_dependencies(runtests tests)
 
 add_test(NAME TestSerialCommunication COMMAND tests)
