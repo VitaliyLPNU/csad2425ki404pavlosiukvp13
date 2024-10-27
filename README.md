@@ -29,4 +29,4 @@ Development of game logic and graphical interface.
 
 ### Communication
 - **Serial Communication.** 
-The Arduino will communicate with the Python application through a UART serial port to send and receive game data and inputs.
+The Arduino will communicate with desktop client app through an UART interface to send game status and receive user input.
