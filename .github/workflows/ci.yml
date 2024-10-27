@@ -41,8 +41,9 @@ jobs:
 
       # Step 5: Run tests
       - name: Run tests
-        run: ctest --output-on-failure
+        run: ctest -C ${{env.BUILD_TYPE}} --output-on-failure
         working-directory: ${{github.workspace}}/sw_client/build
+
 
       # Step 6: Upload build artifacts
       - name: Upload sw_client Build Artifacts
