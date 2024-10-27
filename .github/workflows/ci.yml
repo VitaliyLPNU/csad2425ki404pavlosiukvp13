@@ -31,43 +31,26 @@ jobs:
           arch: 'win64_msvc2022_64'
           modules: 'qtserialport'
 
-      # Step 3: Navigate to the build directory
+      # Step 3: Configure CMake
       - name: Configure CMake
         run: cmake ${{github.workspace}}/sw_client -B ${{github.workspace}}/sw_client/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
 
+      # Step 4: Build the project
       - name: Build
-        # Build your program with the given configuration
         run: cmake --build ${{github.workspace}}/sw_client/build
 
-      - name: Upload sw_client build artifact
-        if: ${{ always() }}
-        uses: actions/upload-artifact@v4
-        with:
-          name: sw_client-build-windows
-          path: ${{github.workspace}}/sw_client/build
-
-      # Step 7: Run tests with timeout and logging enabled
-      - name: Run Tests with Verbose Output
+      # Step 5: Run tests
+      - name: Run tests
+        run: ctest --output-on-failure
         working-directory: ${{github.workspace}}/sw_client/build
-        run: |
-          ctest -C ${{env.BUILD_TYPE}} --output-on-failure --timeout 60 --verbose || true
-        continue-on-error: true
 
-      # Step 8: Upload test logs if tests fail
-      - name: Upload Test Logs
-        if: failure()
-        uses: actions/upload-artifact@v4
-        with:
-          name: test-logs
-          path: ${{github.workspace}}/sw_client/build/Testing/Temporary/*.log
-
-      # Step 9: Upload build artifacts
+      # Step 6: Upload build artifacts
       - name: Upload sw_client Build Artifacts
         uses: actions/upload-artifact@v4
         with:
           name: sw_client-binaries
           path: sw_client/build
-          
+
   build-server:
     runs-on: ubuntu-latest
 
