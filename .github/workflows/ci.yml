@@ -1,0 +1,82 @@
+name: CI Qt CMake (Windows) and PlatformIO
+
+on:
+  push:
+    branches:
+     - '*'
+  pull_request:
+    branches:
+     - '*'
+
+env:
+  # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
+  BUILD_TYPE: Debug
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      # Step 1: Checkout the repository
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # Step 2: Install Qt
+      - name: Install Qt
+        uses: jurplel/install-qt-action@v3
+        with:
+          aqtversion: '==3.1.*'
+          version: '6.8.0'
+          host: 'windows'
+          target: 'desktop'
+          arch: 'win64_msvc2022_64'
+          modules: 'qtserialport'
+
+      # Create build directory and configure CMake
+      - name: Configure CMake
+        run: |
+          if (Test-Path client/build) {
+            Remove-Item -Recurse -Force client/build
+          }
+          New-Item -ItemType Directory -Path client/build
+          cmake -S client -B client/build -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }} -DQT_DEBUG_FIND_PACKAGE=ON
+
+      - name: Build
+        run: cmake --build client/build --config ${{ env.BUILD_TYPE }}
+
+      - name: Test
+        working-directory: client/build
+        run: ctest -C ${{ env.BUILD_TYPE }} --output-on-failure --rerun-failed
+
+      # Step 6: Upload build artifacts
+      - name: Upload Client Build Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: client-binaries
+          path: client/build
+          
+  build-server:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout repository
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # Install PlatformIO
+      - name: Install PlatformIO
+        run: |
+          python3 -m pip install -U platformio
+
+      # Build PlatformIO project for Arduino Server
+      - name: Build Arduino Project
+        run: |
+          pio run
+        working-directory: server
+
+      # Archive Arduino binaries
+      - name: Archive Arduino Binaries
+        uses: actions/upload-artifact@v4
+        with:
+          name: arduino-binaries
+          path: server/.pio/build/*

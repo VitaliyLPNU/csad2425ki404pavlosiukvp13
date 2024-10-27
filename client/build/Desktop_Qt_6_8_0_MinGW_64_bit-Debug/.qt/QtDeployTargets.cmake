@@ -1,0 +1,6 @@
+set(__QT_DEPLOY_TARGET_SW_Client1_FILE C:/Users/vital/Documents/sw_client/build/Desktop_Qt_6_8_0_MinGW_64_bit-Debug/SW_Client1.exe)
+set(__QT_DEPLOY_TARGET_SW_Client1_TYPE EXECUTABLE)
+set(__QT_DEPLOY_TARGET_SW_Client1_RUNTIME_DLLS C:/Qt/6.8.0/mingw_64/bin/Qt6Widgets.dll;C:/Qt/6.8.0/mingw_64/bin/Qt6SerialPort.dll;C:/Qt/6.8.0/mingw_64/bin/Qt6Gui.dll;C:/Qt/6.8.0/mingw_64/bin/Qt6Core.dll)
+set(__QT_DEPLOY_TARGET_tests_FILE C:/Users/vital/Documents/sw_client/build/Desktop_Qt_6_8_0_MinGW_64_bit-Debug/tests.exe)
+set(__QT_DEPLOY_TARGET_tests_TYPE EXECUTABLE)
+set(__QT_DEPLOY_TARGET_tests_RUNTIME_DLLS C:/Qt/6.8.0/mingw_64/bin/Qt6Test.dll;C:/Qt/6.8.0/mingw_64/bin/Qt6Widgets.dll;C:/Qt/6.8.0/mingw_64/bin/Qt6SerialPort.dll;C:/Qt/6.8.0/mingw_64/bin/Qt6Gui.dll;C:/Qt/6.8.0/mingw_64/bin/Qt6Core.dll)
