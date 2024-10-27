@@ -42,7 +42,7 @@ jobs:
       # Step 5: Run tests
       - name: Run tests
         working-directory: ${{github.workspace}}/sw_client/build/Debug
-        run: ctest -C ${{env.BUILD_TYPE}} 
+        run: ./tests.exe
         
 
 
