@@ -9,11 +9,10 @@ on:
      - '*'
 
 env:
-  # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
   BUILD_TYPE: Debug
 
 jobs:
-  build:
+  build-client:
     runs-on: windows-latest
 
     steps:
@@ -32,28 +31,34 @@ jobs:
           arch: 'win64_msvc2022_64'
           modules: 'qtserialport'
 
-      # Create build directory and configure CMake
+      # Step 3: Navigate to the build directory
       - name: Configure CMake
-        run: |
-          if (Test-Path client/build) {
-            Remove-Item -Recurse -Force client/build
-          }
-          New-Item -ItemType Directory -Path client/build
-          cmake -S client -B client/build -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }} -DQT_DEBUG_FIND_PACKAGE=ON
+        run: cmake ${{github.workspace}}/client -B ${{github.workspace}}/client/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
 
       - name: Build
-        run: cmake --build client/build --config ${{ env.BUILD_TYPE }}
+        # Build your program with the given configuration
+        run: cmake --build ${{github.workspace}}/client/build
 
+      - name: Upload Client build artifact
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: client-build-windows
+          path: ${{github.workspace}}/client/build
+
+      # Step 7: Run tests
       - name: Test
-        working-directory: client/build
-        run: ctest -C ${{ env.BUILD_TYPE }} --output-on-failure --rerun-failed
+        working-directory: ${{github.workspace}}/client/build
+      # Execute tests defined by the CMake configuration.
+        run: ctest -C ${{env.BUILD_TYPE}} --rerun-failed --output-on-failure
 
-      # Step 6: Upload build artifacts
+      # Step 8: Upload build artifacts
       - name: Upload Client Build Artifacts
         uses: actions/upload-artifact@v4
         with:
           name: client-binaries
           path: client/build
+
           
   build-server:
     runs-on: ubuntu-latest
