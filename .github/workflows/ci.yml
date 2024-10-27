@@ -12,7 +12,7 @@ env:
   BUILD_TYPE: Debug
 
 jobs:
-  build-client:
+  build-sw_client:
     runs-on: windows-latest
 
     steps:
@@ -33,31 +33,31 @@ jobs:
 
       # Step 3: Navigate to the build directory
       - name: Configure CMake
-        run: cmake ${{github.workspace}}/client -B ${{github.workspace}}/client/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
+        run: cmake ${{github.workspace}}/sw_sw_client -B ${{github.workspace}}/sw_client/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
 
       - name: Build
         # Build your program with the given configuration
-        run: cmake --build ${{github.workspace}}/client/build
+        run: cmake --build ${{github.workspace}}/sw_client/build
 
-      - name: Upload Client build artifact
+      - name: Upload sw_client build artifact
         if: ${{ always() }}
         uses: actions/upload-artifact@v4
         with:
-          name: client-build-windows
-          path: ${{github.workspace}}/client/build
+          name: sw_client-build-windows
+          path: ${{github.workspace}}/sw_client/build
 
       # Step 7: Run tests
       - name: Test
-        working-directory: ${{github.workspace}}/client/build
+        working-directory: ${{github.workspace}}/sw_client/build
       # Execute tests defined by the CMake configuration.
         run: ctest -C ${{env.BUILD_TYPE}} --rerun-failed --output-on-failure
 
       # Step 8: Upload build artifacts
-      - name: Upload Client Build Artifacts
+      - name: Upload sw_client Build Artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: client-binaries
-          path: client/build
+          name: sw_client-binaries
+          path: sw_client/build
 
           
   build-server:
