@@ -21,17 +21,17 @@ set(PROJECT_SOURCES
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
-    qt_add_executable(SW_Client1
+    qt_add_executable(SW_Client
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
     )
 else()
     if(ANDROID)
-        add_library(SW_Client1 SHARED
+        add_library(SW_Client SHARED
             ${PROJECT_SOURCES}
         )
     else()
-        add_executable(SW_Client1
+        add_executable(SW_Client
             ${PROJECT_SOURCES}
         )
     endif()
@@ -42,9 +42,9 @@ target_link_libraries(SW_Client1 PRIVATE Qt${QT_VERSION_MAJOR}::Widgets Qt${QT_V
 
 # Set macOS/iOS bundle properties
 if(${QT_VERSION} VERSION_LESS 6.1.0)
-  set(BUNDLE_ID_OPTION MACOSX_BUNDLE_GUI_IDENTIFIER com.example.SW_Client1)
+  set(BUNDLE_ID_OPTION MACOSX_BUNDLE_GUI_IDENTIFIER com.example.SW_Client)
 endif()
-set_target_properties(SW_Client1 PROPERTIES
+set_target_properties(SW_Client PROPERTIES
     ${BUNDLE_ID_OPTION}
     MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
     MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
@@ -62,7 +62,7 @@ install(TARGETS SW_Client1
 
 # Finalize executable for Qt 6
 if(QT_VERSION_MAJOR EQUAL 6)
-    qt_finalize_executable(SW_Client1)
+    qt_finalize_executable(SW_Client)
 endif()
 
 # Add include directories for tests to find main files
@@ -78,8 +78,8 @@ add_executable(tests
 # Link test libraries
 target_link_libraries(tests PRIVATE Qt${QT_VERSION_MAJOR}::Test Qt${QT_VERSION_MAJOR}::Widgets Qt${QT_VERSION_MAJOR}::SerialPort)
 
-set_target_properties(sw_client PROPERTIES AUTOMOC ON)
-set_target_properties(tests PROPERTIES AUTOMOC ON)
+# Add runtests target to run the tests
+add_custom_target(runtests COMMAND tests)
 
 enable_testing()
 
