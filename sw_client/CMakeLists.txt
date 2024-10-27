@@ -83,4 +83,4 @@ add_custom_target(runtests COMMAND tests)
 
 enable_testing()
 
-add_test(NAME TestSerialCommunication COMMAND tests)
+add_test(NAME TestMainWindow COMMAND tests)
