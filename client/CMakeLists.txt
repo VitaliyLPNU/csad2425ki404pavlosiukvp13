@@ -82,6 +82,4 @@ target_link_libraries(tests PRIVATE Qt${QT_VERSION_MAJOR}::Test Qt${QT_VERSION_M
 add_custom_target(runtests COMMAND tests)
 
 # Enable testing framework
-enable_testing()
 
-add_test(NAME TestMainWindow COMMAND tests)
