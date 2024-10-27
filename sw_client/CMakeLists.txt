@@ -81,5 +81,7 @@ target_link_libraries(tests PRIVATE Qt${QT_VERSION_MAJOR}::Test Qt${QT_VERSION_M
 # Add runtests target to run the tests
 add_custom_target(runtests COMMAND tests)
 
-# Enable testing framework
+enable_testing()
+add_dependencies(runtests tests)
 
+add_test(NAME TestSerialCommunication COMMAND tests)
