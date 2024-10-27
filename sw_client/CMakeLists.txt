@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.16)
 
-project(SW_Client1 VERSION 0.1 LANGUAGES CXX)
+project(SW_Client VERSION 0.1 LANGUAGES CXX)
 
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTOMOC ON)
@@ -38,7 +38,7 @@ else()
 endif()
 
 # Link the main application libraries
-target_link_libraries(SW_Client1 PRIVATE Qt${QT_VERSION_MAJOR}::Widgets Qt${QT_VERSION_MAJOR}::SerialPort)
+target_link_libraries(SW_Client PRIVATE Qt${QT_VERSION_MAJOR}::Widgets Qt${QT_VERSION_MAJOR}::SerialPort)
 
 # Set macOS/iOS bundle properties
 if(${QT_VERSION} VERSION_LESS 6.1.0)
@@ -54,7 +54,7 @@ set_target_properties(SW_Client PROPERTIES
 
 # Installation paths
 include(GNUInstallDirs)
-install(TARGETS SW_Client1
+install(TARGETS SW_Client
     BUNDLE DESTINATION .
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
