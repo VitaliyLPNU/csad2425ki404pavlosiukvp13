@@ -9,18 +9,10 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Core)
-find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core)
-find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Gui)
-find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Gui)
-find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)
-find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
-find_package(QT NAMES Qt6 Qt5 COMPONENTS SerialPort REQUIRED)
-find_package(Qt${QT_VERSION_MAJOR} COMPONENTS SerialPort REQUIRED)
+include(${CMAKE_SOURCE_DIR}/cmake/windeployqt.cmake)
 
-
-find_package(QT NAMES Qt6 Qt5 COMPONENTS Test REQUIRED)
-find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Test REQUIRED)
+include_directories(${CMAKE_CURRENT_BINARY_DIR})
+find_package(Qt6 COMPONENTS Core Gui Widgets SerialPort Test REQUIRED)
 
 # Find necessary Qt components
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets SerialPort Test)
@@ -98,6 +90,7 @@ target_sources(${TEST_TARGET} PRIVATE
 )
 
 # Link test libraries
+
 target_link_libraries(tests PRIVATE Qt${QT_VERSION_MAJOR}::Test Qt${QT_VERSION_MAJOR}::Widgets Qt${QT_VERSION_MAJOR}::SerialPort)
 
 enable_testing()
