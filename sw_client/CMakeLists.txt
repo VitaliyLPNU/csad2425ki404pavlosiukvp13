@@ -93,6 +93,8 @@ target_sources(${TEST_TARGET} PRIVATE
 
 target_link_libraries(tests PRIVATE Qt${QT_VERSION_MAJOR}::Test Qt${QT_VERSION_MAJOR}::Widgets Qt${QT_VERSION_MAJOR}::SerialPort)
 
+deploy_qt_app(sw_client)
+
 enable_testing()
 
 add_test(NAME ${TEST_TARGET} COMMAND ${TEST_TARGET})
