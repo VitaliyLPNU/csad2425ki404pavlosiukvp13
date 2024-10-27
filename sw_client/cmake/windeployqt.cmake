@@ -1,6 +1,5 @@
 # windeployqt.cmake
 
-# Функція для виконання windeployqt для Qt-додатка
 function(deploy_qt_app target)
     if(WIN32 AND Qt6_FOUND)
         add_custom_command(TARGET ${target} POST_BUILD

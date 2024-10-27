@@ -11,7 +11,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     setupSerialPort();
 
-    // Підключаємо сигнал зчитування даних з порту до слоту
+
     connect(serial, &QSerialPort::readyRead, this, &MainWindow::readFromSerial);
 }
 
@@ -21,8 +21,8 @@ MainWindow::~MainWindow()
 }
 
 void MainWindow::setupSerialPort() {
-    // Налаштування серійного порту
-    serial->setPortName("COM3");  // Назва порту може варіюватися, залежно від системи
+
+    serial->setPortName("COM3");
     serial->setBaudRate(QSerialPort::Baud9600);
     serial->setDataBits(QSerialPort::Data8);
     serial->setParity(QSerialPort::NoParity);
@@ -31,21 +31,21 @@ void MainWindow::setupSerialPort() {
 
     if (!serial->open(QIODevice::ReadWrite)) {
         QMessageBox::critical(this, "Error", "Unable to open the serial port!");
-        return;  // Додаємо return, щоб зупинити виконання, якщо порт не відкрився
+        return;
     }
 }
 
 void MainWindow::on_sendButton_clicked()
 {
-    // Отримання тексту з поля введення
+
     QString message = ui->inputText->text();
 
-    // Відправка повідомлення на Arduino
+
     serial->write(message.toUtf8());
 
-    // Виведення повідомлення у поле логів
+
     ui->logText->append("Send: " + message);
-    ui->logText->append("");  // Додаємо новий рядок для відступу
+    ui->logText->append("");
 }
 
 
@@ -54,7 +54,7 @@ void MainWindow::readFromSerial() {
 
     buffer.append(serial->readAll());
 
-    int endIndex = buffer.indexOf('\n');  // Чекаємо на кінець рядка
+    int endIndex = buffer.indexOf('\n');
     while (endIndex != -1) {
         QString receivedMessage = QString::fromUtf8(buffer.left(endIndex).trimmed());
         ui->logText->append("Received: " + receivedMessage);
@@ -67,7 +67,7 @@ QSerialPort* MainWindow::getSerialPort() const {
     return serial;
 }
 
-// mainwindow.cpp
+
 
 void MainWindow::setInputText(const QString &text) {
     ui->inputText->setText(text);
@@ -78,7 +78,7 @@ QString MainWindow::getLogText() const {
 }
 
 void MainWindow::simulateReceivedMessage(const QString& message) {
-    ui->logText->append("Received: " + message);  // Directly append to the log for testing
+    ui->logText->append("Received: " + message);
 }
 
 

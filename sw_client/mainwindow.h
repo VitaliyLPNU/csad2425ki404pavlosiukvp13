@@ -21,13 +21,13 @@ public:
     void simulateReceivedMessage(const QString &message); // Simulate a received message for testing
 
 private slots:
-    void on_sendButton_clicked(); // Слот для обробки натискання кнопки "Відправити"
-    void readFromSerial(); // Слот для зчитування даних з серійного порту
+    void on_sendButton_clicked();
+    void readFromSerial();
 
 private:
     Ui::MainWindow *ui;
-    QSerialPort *serial; // Об'єкт для серійного порту
-    void setupSerialPort(); // Налаштування серійного порту
+    QSerialPort *serial;
+    void setupSerialPort();
 };
 
 #endif // MAINWINDOW_H
