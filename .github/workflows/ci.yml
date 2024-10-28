@@ -1,0 +1,78 @@
+name: CI Qt CMake (Windows) and PlatformIO
+
+on:
+  push:
+    branches:
+     - '*'
+  pull_request:
+    branches:
+     - '*'
+
+env:
+  BUILD_TYPE: Debug
+
+jobs:
+  build-sw_client:
+    runs-on: windows-latest
+
+    steps:
+      # Step 1: Checkout the repository
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # Step 2: Install Qt
+      - name: Install Qt
+        uses: jurplel/install-qt-action@v3
+        with:
+          aqtversion: '==3.1.*'
+          version: '6.8.0'
+          host: 'windows'
+          target: 'desktop'
+          arch: 'win64_msvc2022_64'
+          modules: 'qtserialport'
+
+      # Step 3: Configure CMake
+      - name: Configure CMake
+        run: cmake ${{github.workspace}}/sw_client -B ${{github.workspace}}/sw_client/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
+
+      # Step 4: Build the project
+      - name: Build
+        run: cmake --build ${{github.workspace}}/sw_client/build
+
+      # Step 5: Run tests
+      - name: Run tests with CTest debug
+        working-directory: ${{github.workspace}}/sw_client/build/Debug
+        run: ctest -V
+
+      # Step 6: Upload build artifacts
+      - name: Upload sw_client Build Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: sw_client-binaries
+          path: sw_client/build
+
+  build-server:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout repository
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # Install PlatformIO
+      - name: Install PlatformIO
+        run: |
+          python3 -m pip install -U platformio
+
+      # Build PlatformIO project for Arduino Server
+      - name: Build Arduino Project
+        run: |
+          pio run
+        working-directory: server
+
+      # Archive Arduino binaries
+      - name: Archive Arduino Binaries
+        uses: actions/upload-artifact@v4
+        with:
+          name: arduino-binaries
+          path: server/.pio/build/*
